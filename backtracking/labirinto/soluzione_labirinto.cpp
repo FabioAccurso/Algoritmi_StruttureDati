@@ -5,7 +5,6 @@ int N=4;
 int matrice[4][4]={1,1,0,0,1,1,1,0,1,0,1,0,1,0,1,1};
 int soluzione[4][4]={1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-
 bool backtrack(int riga, int colonna){
     if(riga==N-1 && colonna==N-1 && matrice[riga][colonna]==1){
         //aggiungere 1 a soluzione
