@@ -47,7 +47,7 @@ void backtrack(vector<int>& candidates, vector<vector<int>>& risultato, int targ
 
 vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
     vector<vector<int>> risultato;
-    int sum=0,out=0,attuale=0;
+    int sum=0,attuale=0;
     vector<int> subresult;
     backtrack(candidates,risultato,target,sum,subresult,attuale);
 
