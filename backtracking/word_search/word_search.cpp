@@ -14,8 +14,6 @@ bool is_safe(int rig, int col,int rMax, int cMax){
 }
 
 
-
-//devo implementare che non torna nella casella da cui viene!!!
 void backtrack(vector<vector<char>>& board, const string& word, int wordFind,int rig, int col, bool& result, vector<vector<bool>>& visited){
     if (result) return;
     if(is_solution(word,wordFind)){
