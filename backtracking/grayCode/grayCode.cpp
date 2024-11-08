@@ -58,9 +58,6 @@ void backtrack(vector<int>& result, int n, unordered_set<int>& used, vector<int>
 
 
 
-
-
-
 vector<int> grayCode(int n) {
     vector<int> result;
     unordered_set<int> used;
@@ -75,7 +72,7 @@ vector<int> grayCode(int n) {
 
 
 int main(){
-    int n=2;
+    int n=10;
     vector<int> output = grayCode(n);
     if(output.size()>0){
         cout<<"[";
