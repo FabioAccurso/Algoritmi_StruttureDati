@@ -1,68 +1,58 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
-struct maximum_subarray
-{
-    int totale;
-    char who; //e=entrambi s=sinistra d=destra n=nessuno
-};
 
+// Funzione per calcolare la somma massima del sottarray che attraversa il centro
+int maxCrossingSum(const vector<int>& nums, int left, int middle, int right) {
+    int left_sum = INT_MIN, right_sum = INT_MIN;
+    int sum = 0;
 
-
-maximum_subarray divide_et_impera(vector<int>& nums, int ini, int fin){
-    if(ini==fin){
-        maximum_subarray a;
-        if(nums[ini]>0){
-            a.totale=nums[ini];
-            a.who='e'; 
-            return a;
-        }
-        else{
-            a.totale=nums[ini];
-            a.who='n';
-            return a;
-        }
-        
+    // Calcola la somma massima dalla metà verso sinistra
+    for (int i = middle; i >= left; --i) {
+        sum += nums[i];
+        left_sum = max(left_sum, sum);
     }
-    else{
-        int middle=(ini + fin)/2;
-        maximum_subarray sx = divide_et_impera(nums,ini,middle);
-        maximum_subarray dx = divide_et_impera(nums,middle+1,fin);\
 
-        if(sx.totale>0 && dx.totale>0){ //tutti e due positivi
-            sx.totale+=dx.totale;
-            sx.who='e';
-            return sx;
-        }
+    sum = 0;
 
-        //casi in cui solo uno e' positivo ma ne deve valere la pena tenere il negativo
-        else if(dx.totale>0 && sx.totale<=0){
-
-        }
-        else if(sx.totale>0 && dx.totale<=0){
-
-        }
-        
+    // Calcola la somma massima dalla metà verso destra
+    for (int i = middle + 1; i <= right; ++i) {
+        sum += nums[i];
+        right_sum = max(right_sum, sum);
     }
-    
 
-
+    // Restituisce la somma massima che attraversa il centro
+    return left_sum + right_sum;
 }
 
+// Funzione principale che applica il divide et impera
+int maxSubArrayDivideEtImpera(const vector<int>& nums, int left, int right) {
+    if (left == right) {
+        return nums[left]; // Caso base: un solo elemento
+    }
 
+    int middle = (left + right) / 2;
+
+    // Calcola il massimo sottarray nella metà sinistra, nella metà destra, e attraverso il centro
+    int max_left = maxSubArrayDivideEtImpera(nums, left, middle);
+    int max_right = maxSubArrayDivideEtImpera(nums, middle + 1, right);
+    int max_cross = maxCrossingSum(nums, left, middle, right);
+
+    // Restituisce il massimo dei tre
+    return max({max_left, max_right, max_cross});
+}
+
+// Funzione che avvia la ricerca del massimo sottarray
 int maxSubArray(vector<int>& nums) {
-    maximum_subarray soluzione = divide_et_impera(nums,0,nums.size()-1);
-
-    return soluzione.totale;
+    return maxSubArrayDivideEtImpera(nums, 0, nums.size() - 1);
 }
 
-
-
-int main(){
-    vector<int> nums;
+int main() {
+    vector<int> nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
     int soluzione = maxSubArray(nums);
-    cout<<"La somma degli elementi del massimo sotto array e': "<<soluzione<<endl;
+    cout << "La somma degli elementi del massimo sottoarray è: " << soluzione << endl;
 
     return 0;
 }
